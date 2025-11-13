@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWJ2,5 공정안내 TOOL - User Manual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #0099ff;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Pretendard 폰트 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 섹션 _ 베넷 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            bottom: -200px;
+            left: -200px;
+            animation: pulse 4s ease-in-out infinite 2s;
+        }
+
+        /* 이펙트 _ 베넷 */
+        .hero .light-sweep {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 212, 255, 0.1) 25%,
+                rgba(0, 212, 255, 0.3) 50%,
+                rgba(0, 212, 255, 0.1) 75%,
+                transparent 100%);
+            transform: skewX(-25deg);
+            animation: lightSweep 8s ease-in-out infinite;
+        }
+
+        .hero .light-sweep-2 {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(102, 126, 234, 0.15) 40%,
+                rgba(167, 139, 250, 0.2) 50%,
+                rgba(102, 126, 234, 0.15) 60%,
+                transparent 100%);
+            transform: skewX(-20deg);
+            animation: lightSweep 10s ease-in-out infinite 3s;
+        }
+
+        /* 파티클 _ 베넷 */
+        .hero .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: particle-float 6s ease-in-out infinite;
+        }
+
+        .hero .particle:nth-child(5) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .hero .particle:nth-child(6) {
+            top: 40%;
+            right: 15%;
+            animation-delay: 2s;
+            animation-duration: 8s;
+        }
+
+        .hero .particle:nth-child(7) {
+            top: 60%;
+            left: 20%;
+            animation-delay: 4s;
+            animation-duration: 7s;
+        }
+
+        .hero .particle:nth-child(8) {
+            top: 80%;
+            right: 25%;
+            animation-delay: 1s;
+            animation-duration: 9s;
+        }
+
+        .hero .particle:nth-child(9) {
+            top: 30%;
+            left: 70%;
+            animation-delay: 3s;
+            animation-duration: 6s;
+        }
+
+        @keyframes lightSweep {
+            0% {
+                left: -100%;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                left: 100%;
+                opacity: 1;
+            }
+            51% {
+                opacity: 0;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes particle-float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--light);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .author {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 섹션 스타일 _ 베넷 */
+        section {
+            padding: 6rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.8rem);
+            font-weight: 700;
+            margin-bottom: 3.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 카드 _ 베넷 */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1.2rem;
+            color: var(--light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card ul {
+            list-style: none;
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .card li {
+            padding: 0.6rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+            color: var(--light);
+            font-size: 1.05rem;
+        }
+
+        .card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .card p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--light);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 워크플로우 _ 베넷 */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .timeline-content p {
+            font-size: 1.1rem;
+            color: var(--light);
+            line-height: 1.7;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.3);
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        /* 단계 섹션 _ 베넷 */
+        .step-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            border-left: 4px solid var(--primary);
+            text-align: center;
+        }
+
+        .step-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1.8rem;
+            color: var(--primary);
+        }
+
+        .step-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--light);
+        }
+
+        .step-card > p {
+            font-size: 1.1rem;
+            color: var(--light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-box {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 1.8rem;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 116, 139, 0.1);
+            text-align: center;
+        }
+
+        .info-box h5 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .info-box p, .info-box li {
+            color: var(--light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .info-box ol {
+            text-align: left;
+            display: inline-block;
+        }
+
+        /* 알림 박스 _ 베넷 */
+        .alert {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .alert::before {
+            content: '🚨';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .alert-title {
+            color: #ef4444;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .alert ul {
+            text-align: left;
+            display: inline-block;
+        }
+
+        .alert li {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--light);
+        }
+
+        /* 케이스 _ 베넷 */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .case-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            text-align: center;
+        }
+
+        .case-title {
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .case-card > p {
+            font-size: 1.1rem;
+            color: var(--light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-box {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 1.8rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .example-title {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+        }
+
+        .example-box ul {
+            text-align: left;
+            display: inline-block;
+        }
+
+        .example-box li {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--light);
+        }
+
+        /* 리스트 _ 베넷 */
+        .feature-list {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .feature-item:hover {
+            background: rgba(15, 23, 42, 0.6);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h5 {
+            color: var(--light);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .feature-content p {
+            color: var(--light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* 하단 _ 베넷 */
+        footer {
+            background: var(--darker);
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+            margin-top: 4rem;
+        }
+
+        footer h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer p {
+            color: var(--gray);
+            font-size: 1.3rem;
+        }
+
+        /* 디자인 _ 베넷 */
+        @media (max-width: 768px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin-left: 40px !important;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 스크롤바 _ 베넷 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="light-sweep"></div>
+        <div class="light-sweep-2"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="hero-content">
+            <h1>🚀 GWJ2,5 공정안내 TOOL</h1>
+            <p class="subtitle">효율적인 단기직 공정 배정 및 실시간 안내 시스템</p>
+            <p class="author">By Bennett</p>
+        </div>
+    </section>
+
+    <!-- Tool Overview -->
+    <section id="overview">
+        <div class="container">
+            <h2 class="section-title">툴(Tool) 소개: 목적 및 주요 기능</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>목적</h3>
+                    <ul>
+                        <li>단기 사원 공정 배정 자동화</li>
+                        <li>바코드 스캔을 통한 즉각적인 안내</li>
+                        <li>관리자 실시간 모니터링</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>주요 기능</h3>
+                    <ul>
+                        <li>센터별 엑셀 파일 업로드/통합</li>
+                        <li>OB 여성 자동 층 배정 (백로그 기반)</li>
+                        <li>실시간 스캔 현황 대시보드</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h3>핵심 관리</h3>
+                    <ul>
+                        <li>현장 수동 변경 (즉시 적용)</li>
+                        <li>미스캔 인원 모트 확인</li>
+                        <li>데이터 백업 및 복원</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow -->
+    <section id="workflow">
+        <div class="container">
+            <h2 class="section-title">워크플로우: 전체 사용 흐름</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>[관리자] 준비</h3>
+                        <p>설정 진입, 2/5센터 엑셀 업로드</p>
+						<p>(선택) 백로그 입력</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>[관리자] 배정</h3>
+                        <p>'인원 배정하기' 클릭</p>
+						<p>시스템 준비 완료 및 자동 백업</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>[사원] 안내</h3>
+                        <p>화면에서 바코드 스캔, 배정된 공정/층 확인</p>
+						<p>배정된 공정/층 확인</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>[관리자] 운영</h3>
+                        <p>실시간 현황 모니터링</p>
+						<p>(필요시) 수동 변경 및 엑셀 저장</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 1 -->
+    <section id="step1">
+        <div class="container">
+            <h2 class="section-title">STEP 1: 사전 준비</h2>
+            <div class="step-grid">
+                <div class="step-card">
+                    <h3>1. 엑셀 파일 업로드 (필수)</h3>
+                    
+                    <div style="margin: 2rem 0;">
+                        <img src="https://github.com/qogmlwo000/gwj2humaninfo/blob/main/1.png?raw=true" alt="센터별 엑셀 파일 업로드" style="max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                    </div>
+                    
+                    <div class="step-content">
+                        <div class="info-box">
+                            <h5>2센터 파일</h5>
+                            <p>'2센터' 이름이 포함된 파일</p>
+                        </div>
+                        <div class="info-box">
+                            <h5>5센터 파일</h5>
+                            <p>'5센터' 이름이 포함된 파일</p>
+                        </div>
+                    </div>
+                    <div class="alert">
+                        <div class="alert-title">주의사항:</div>
+                        <ul>
+                            <li>반드시 '3. Simulation' 시트가 존재해야 합니다</li>
+                            <li>'신규' 인원은 데이터 로드 시 자동으로 제외됩니다</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h3>2. (선택) 백로그 입력</h3>
+                    
+                    <div style="margin: 2rem 0;">
+                        <img src="https://github.com/qogmlwo000/gwj2humaninfo/blob/main/2.png?raw=true" alt="2센터 OB 층별 백로그 기입" style="max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                    </div>
+                    
+                    <div class="info-box">
+                        <h5>2센터 OB 여성 백로그</h5>
+						<p>MOS에서 층별(6.1+6.3, 7.2, 7.3) 백로그 수량을 확인하여 기입합니다.</p>
+						<p>────────────────────────</p>
+						<p>✅ MOS 설정 방법 추가 예정</p>
+						<p>────────────────────────</p>
+                        <p>층별(6.1+6.3, 7.2, 7.3) 백로그 수량에 비례하여 자동 분배합니다</p>
+                        <p style="margin-top: 0.5rem;">비워둘 경우: 층별 1/N 균등 분배됩니다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive: 2센터 OB 여성 자동 배정 로직 -->
+    <section id="deepdive">
+        <div class="container">
+            <h2 class="section-title">2센터 OB 여성 자동 배정 로직</h2>
+            <div class="case-grid">
+                <div class="case-card">
+                    <h4 class="case-title">CASE 1: 백로그 수량 입력 (권장)</h4>
+                    <p>입력된 백로그 *비율*에 맞춰 인원을 자동 분배합니다</p>
+                    
+                    <div class="example-box">
+                        <div class="example-title">[예시: 총 OB 여성 50명]</div>
+                        <ul>
+                            <li>6.1층 (2000) → 20% → 10명</li>
+                            <li>7.2층 (3000) → 30% → 15명</li>
+                            <li>7.3층 (5000) → 50% → 25명</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <h4 class="case-title">CASE 2: 백로그 수량 미입력</h4>
+                    <p>3개 층에 *1/N으로 균등 분배*합니다</p>
+                    
+                    <div class="example-box">
+                        <div class="example-title">[예시: 총 OB 여성 50명]</div>
+                        <ul>
+                            <li>6.1층 → 17명</li>
+                            <li>7.2층 → 17명</li>
+                            <li>7.3층 → 16명</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2: 현장 운영 -->
+    <section id="step2-monitoring">
+        <div class="container">
+            <h2 class="section-title">STEP 2: 현장 운영 (모니터링)</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>실시간 현황판</h3>
+                    <p>전체 인원 대비 스캔 완료 인원 및 진행률(%)을 실시간으로 표시합니다. 사원 스캔 시 자동 업데이트됩니다.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>미스캔 인원 보기</h3>
+                    <p>아직 스캔하지 않은 인원들을 *공정별*로 그룹화하여 보여줍니다. 현장 미배치 인원 추적에 용이합니다.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✅</div>
+                    <h3>OB 배정 현황</h3>
+                    <p>2센터 OB/CFC OB 인원의 층별 배정 명단과 실시간 스캔(✓) 상태를 요약하여 보여줍니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2: 공정/층 수동 변경 -->
+    <section id="step2-manual">
+        <div class="container">
+            <h2 class="section-title">STEP 2: 공정/층 수동 변경 (핵심 기능)</h2>
+            <div class="step-card">
+                <h3>목적</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">📋</div>
+                        <div class="feature-content">
+                            <h5>엑셀 데이터 오류 수정</h5>
+                            <p>업로드된 엑셀 파일의 오류를 즉시 수정할 수 있습니다</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔄</div>
+                        <div class="feature-content">
+                            <h5>현장 상황에 따른 긴급 인원 재배정</h5>
+                            <p>실시간으로 발생하는 현장 상황에 즉각 대응합니다</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚠️</div>
+                        <div class="feature-content">
+                            <h5>'원바코드 중복' 오류 사원 강제 배정</h5>
+                            <p>중복 바코드로 인한 문제를 현장에서 해결합니다</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 3rem;">사용 화면</h3>
+                <div style="margin: 2rem 0;">
+                    <img src="https://github.com/qogmlwo000/gwj2humaninfo/blob/main/3.png?raw=true" alt="공정/층 수동 변경 화면" style="max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                </div>
+
+                <h3 style="margin-top: 2rem;">사용법</h3>
+                <div class="info-box">
+                    <ol style="padding-left: 1.5rem; color: var(--gray);">
+                        <li>사원의 5자리 또는 8자리 바코드 입력</li>
+                        <li>변경할 '공정' 또는 '층' 선택 (둘 다 선택 가능)</li>
+                        <li>'적용' 버튼 클릭 → *즉시 반영*</li>
+                        <li>'되돌리기'로 엑셀 원본 값 복구 가능</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive: OB/CFC OB 엑셀 저장 기능 -->
+    <section id="excel-storage">
+        <div class="container">
+            <h2 class="section-title">OB/CFC OB 엑셀 저장 기능</h2>
+            <div class="step-card">
+                <h3>목적</h3>
+                <p>2센터 OB/CFC OB 배정 결과를 현장 관리자 공유용 보고서로 생성합니다.</p>
+
+                <h3 style="margin-top: 2rem;">층별 시트 자동 분리</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">📑</div>
+                        <div class="feature-content">
+                            <h5>층별 시트 자동 생성</h5>
+                            <p>'1.3층', '6.1층', '6.2층' 등 배정된 층별로 시트(Sheet)가 자동으로 분리되어 생성됩니다</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">바코드 누락 인원 식별</h3>
+                <div class="info-box">
+                    <p>8자리 원바코드가 '누락'된 인원이 하단에 정렬됩니다.</p>
+                </div>
+
+                <h3 style="margin-top: 2rem;">바코드 중복 인원 식별</h3>
+                <div class="alert">
+                    <div class="alert-title">중요</div>
+                    <p>'비고'란에 '원바코드 중복'이 표시됩니다. (관리자 확인 필요)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 3: 사원 안내 -->
+    <section id="step3">
+        <div class="container">
+            <h2 class="section-title">STEP 3: 사원 안내 (스캔 성공)</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>스캔 성공 (7초간 표시)</h3>
+                    <div class="feature-list" style="margin-top: 1rem;">
+                        <div class="feature-item">
+                            <div class="feature-icon">📍</div>
+                            <div class="feature-content">
+                                <h5>표시 정보</h5>
+                                <p>센터 / 공정, 성함 (마스킹 처리, 예: 홍*동), 이동 층, 성공 사운드(딩동) 재생</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem; text-align: center; color: var(--primary);">스캔 오류 화면</h3>
+            <div class="case-grid" style="margin-top: 2rem;">
+                <div class="case-card">
+                    <h4 class="case-title">오류: 명단 없음 (10초)</h4>
+                    <p>엑셀 명단에 *존재하지 않는* 바코드를 스캔한 경우입니다</p>
+                    
+                    <div class="alert" style="margin-top: 1rem;">
+                        <div class="alert-title">안내사항</div>
+                        <ul>
+                            <li>HUB 공정 가능성 안내</li>
+                            <li>1.1층 또는 4층 식당(HR)으로 이동 안내</li>
+                            <li>경고 사운드 재생</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <h4 class="case-title">오류: 원바코드 중복 (10초)</h4>
+                    <p>동일한 5자리 바코드를 가진 인원이 *2명 이상*인 경우입니다</p>
+                    
+                    <div class="alert" style="margin-top: 1rem;">
+                        <div class="alert-title">안내사항</div>
+                        <ul>
+                            <li>관리자에게 문의하도록 안내</li>
+                            <li>(관리자 해결법: '수동 변경'으로 강제 배정)</li>
+                            <li>경고 사운드 재생</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Features -->
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">기타 기능: 백업 및 테스트</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <h3>데이터 백업 및 복원 (중요)</h3>
+                    <p style="margin-bottom: 1rem;">'인원 배정하기' 시 1차 *자동 백업*됩니다</p>
+                    <p>'💾 백업 저장' (수동): 스캔 현황, 수동 변경 내역까지 모두 저장됩니다</p>
+                    <p style="margin-top: 1rem;">새로고침(F5)해도 📁 백업 불러오기'로 즉시 복원 가능합니다</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✏️</div>
+                    <h3>테스트 모드</h3>
+                    <p>엑셀 파일 없이 가상 데이터로 즉시 '인원 배정하기'를 실행합니다</p>
+                    <p style="margin-top: 1rem;">발표, 시연, 또는 기능 테스트 시 사용합니다</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h2>Q&A</h2>
+            <p>공정안내 셋팅 및 사용에 대하여 질문이 있으신 경우</p>
+			<p>개인 팀즈 'Bennett' 연락 주시면 감사하겠습니다.</p>
+            <p style="margin-top: 1rem; color: var(--primary); font-size: 1.3rem; font-weight: 600;">Bennett</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
